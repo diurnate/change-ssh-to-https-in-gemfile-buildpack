@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-echo "change-ssh-to-https-in-gemfile-buildpack"
+echo "change-ssh-to-https-in-requirements-txt-buildpack"
 exit 0

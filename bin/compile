@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
-cat $1/Gemfile | sed 's/git@github.com:/https:\/\/github.com\//g' > $1//tmp/Gemfile.new
-cat $1/Gemfile.lock | sed 's/git@github.com:/https:\/\/github.com\//g' > $1//tmp/Gemfile.lock.new
+REQUIREMENTS_TXT="$1/requirements.txt"
+TMP_REQUIREMENTS_TXT="/tmp/requirements.txt.new"
 
-echo "-----> Replacing \"git@github.com:\" with \"https://github.com/\" in Gemfile and Gemfile.lock"
+echo "-----> Replacing \"git@github.com:\" with \"https://github.com/\" in requirements.txt"
+sed 's/[^\/]git@github.com:\?/https:\/\/github.com\//g' < $REQUIREMENTS_TXT > $TMP_REQUIREMENTS_TXT
+echo "-----> Replacing \"git+ssh://git@github.com\" with \"https://github.com/\" in requirements.txt"
+sed  -i 's/git+ssh:\/\/git@github.com:\?/https:\/\/github.com\//g' $TMP_REQUIREMENTS_TXT
 
-mv $1//tmp/Gemfile.new $1/Gemfile
-mv $1//tmp/Gemfile.lock.new $1/Gemfile.lock
+echo "-----> diff between new and old requirements.txt follows"
+diff -u $REQUIREMENTS_TXT $TMP_REQUIREMENTS_TXT
+
+cp $TMP_REQUIREMENTS_TXT $REQUIREMENTS_TXT
