@@ -10,6 +10,6 @@ echo "-----> Replacing \"git+ssh://git@github.com\" with \"https://github.com/\"
 sed  -i 's/git+ssh:\/\/git@github.com:\?/https:\/\/github.com\//g' $TMP_REQUIREMENTS_TXT
 
 echo "-----> diff between new and old requirements.txt follows"
-diff -u $REQUIREMENTS_TXT $TMP_REQUIREMENTS_TXT
+diff -u $REQUIREMENTS_TXT $TMP_REQUIREMENTS_TXT || true
 
-cp $TMP_REQUIREMENTS_TXT $REQUIREMENTS_TXT
+mv $TMP_REQUIREMENTS_TXT $REQUIREMENTS_TXT
