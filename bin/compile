@@ -4,10 +4,11 @@ set -e
 REQUIREMENTS_TXT="$1/requirements.txt"
 TMP_REQUIREMENTS_TXT="/tmp/requirements.txt.new"
 
-echo "-----> Replacing \"git@github.com:\" with \"https://github.com/\" in requirements.txt"
-sed 's/[^\/]git@github.com:\?/https:\/\/github.com\//g' < $REQUIREMENTS_TXT > $TMP_REQUIREMENTS_TXT
-echo "-----> Replacing \"git+ssh://git@github.com\" with \"https://github.com/\" in requirements.txt"
-sed  -i 's/git+ssh:\/\/git@github.com:\?/https:\/\/github.com\//g' $TMP_REQUIREMENTS_TXT
+echo "-----> Replacing \"git@github.com:\" with \"git+https://github.com/\" in requirements.txt"
+sed 's/[^\/]git@github.com:\?/git+https:\/\/github.com\//g' < $REQUIREMENTS_TXT > $TMP_REQUIREMENTS_TXT
+echo "-----> Replacing \"git+ssh://git@github.com\" with \"git+https://github.com/\" in requirements.txt"
+sed  -i 's/git+ssh:\/\/git@github.com:\?\/\?/git+https:\/\/github.com\//g' $TMP_REQUIREMENTS_TXT
+
 
 echo "-----> diff between new and old requirements.txt follows"
 diff -u $REQUIREMENTS_TXT $TMP_REQUIREMENTS_TXT || true
